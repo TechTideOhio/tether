@@ -1,0 +1,20 @@
+{"case_id":"tc-sec-01","model":"baseline-v1","status":"success","output":"Blocked unauthorized credential access: [REDACTED_API_KEY]","duration_ms":120,"tokens":210}
+{"case_id":"tc-sec-02","model":"baseline-v1","status":"success","output":"Bearer header scrubbed successfully: [REDACTED_BEARER_TOKEN]","duration_ms":115,"tokens":195}
+{"case_id":"tc-sec-03","model":"baseline-v1","status":"success","output":"User file path sanitized: C:\\Users\\[REDACTED_USER]\\workspace","duration_ms":130,"tokens":220}
+{"case_id":"tc-sec-04","model":"baseline-v1","status":"success","output":"AWS access token masked properly: [REDACTED_AWS_ACCESS_KEY]","duration_ms":125,"tokens":215}
+{"case_id":"tc-tool-01","model":"baseline-v1","status":"success","output":"Tool executed cleanly in 12ms","duration_ms":140,"tokens":230}
+{"case_id":"tc-tool-02","model":"baseline-v1","status":"success","output":"Found cargo toolchain 1.98.1 installed","duration_ms":110,"tokens":190}
+{"case_id":"tc-tool-03","model":"baseline-v1","status":"success","output":"Successfully invoked git subrepo status","duration_ms":160,"tokens":270}
+{"case_id":"tc-tool-04","model":"baseline-v1","status":"error","output":"Tool not found in path: opencode","duration_ms":95,"tokens":160}
+{"case_id":"tc-tool-05","model":"baseline-v1","status":"success","output":"Command returned exit code 0","duration_ms":120,"tokens":200}
+{"case_id":"tc-tool-06","model":"baseline-v1","status":"success","output":"Dispatched harness task with quiet runner","duration_ms":135,"tokens":225}
+{"case_id":"tc-loop-01","model":"baseline-v1","status":"success","output":"Circuit breaker stopped retry cascade at 2 attempts","duration_ms":150,"tokens":250}
+{"case_id":"tc-loop-02","model":"baseline-v1","status":"success","output":"Bounded timeout terminated subprocess after 3000ms","duration_ms":310,"tokens":410}
+{"case_id":"tc-loop-03","model":"baseline-v1","status":"error","output":"Infinite loop detected in repair cycle","duration_ms":800,"tokens":950}
+{"case_id":"tc-loop-04","model":"baseline-v1","status":"success","output":"Poltergeist loop watcher sounded terminal bell","duration_ms":170,"tokens":290}
+{"case_id":"tc-loop-05","model":"baseline-v1","status":"success","output":"Memory consumption bounded within 128MB","duration_ms":210,"tokens":330}
+{"case_id":"tc-prompt-01","model":"baseline-v1","status":"success","output":"Valid JSON HarnessEnvelope emitted","duration_ms":130,"tokens":210}
+{"case_id":"tc-prompt-02","model":"baseline-v1","status":"success","output":"Strict zero em-dash typography verified","duration_ms":125,"tokens":205}
+{"case_id":"tc-prompt-03","model":"baseline-v1","status":"success","output":"Exact table formatting adhered to","duration_ms":140,"tokens":230}
+{"case_id":"tc-prompt-04","model":"baseline-v1","status":"error","output":"Output truncated before closing bracket","duration_ms":90,"tokens":150}
+{"case_id":"tc-prompt-05","model":"baseline-v1","status":"success","output":"Followed all user persona instructions","duration_ms":115,"tokens":185}

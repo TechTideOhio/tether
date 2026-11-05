@@ -1,0 +1,4 @@
+packs/** linguist-vendored
+fixtures/** linguist-vendored
+*.lock.json linguist-vendored
+*.jsonl linguist-vendored

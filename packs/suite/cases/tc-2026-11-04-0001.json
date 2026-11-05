@@ -1,0 +1,32 @@
+{
+  "id": "tc-2026-11-04-0001",
+  "schema": "tether-case-v1",
+  "state": "active",
+  "source": {
+    "kind": "harness-run",
+    "run_id": "manual-input",
+    "timestamp": "2026-11-04",
+    "agent": "agent"
+  },
+  "fingerprint": {
+    "exact": "sha256:31895d1cee1d53a5a5e837ab4e8fc436628d63c23cfe49e9ef171b6b8de91c76",
+    "shingle": 5060076439173177669
+  },
+  "category": "tool_execution",
+  "stratum": "regression",
+  "task": "Run OpenCode interactive desktop session on workdir",
+  "input_context": null,
+  "expect": [
+    {
+      "kind": "status_equals",
+      "equals": "success"
+    }
+  ],
+  "weight": 1.0,
+  "frequency": 2,
+  "split": "held_out",
+  "is_blocker": false,
+  "created_at": "2026-11-04",
+  "updated_at": "2026-11-04",
+  "notes": "Auto-captured from production failure: OpenCode not installed - nothing to open"
+}

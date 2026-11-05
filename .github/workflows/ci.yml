@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Check, Lint & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Rust Toolchain
+        uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+
+      - name: Format Check
+        run: cargo fmt --all -- --check
+
+      - name: Clippy Gate
+        run: cargo clippy --all-targets -- -D warnings
+
+      - name: Test Suite
+        run: cargo test --all-targets

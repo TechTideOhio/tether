@@ -1,0 +1,32 @@
+{
+  "id": "tc-2026-11-04-0002",
+  "schema": "tether-case-v1",
+  "state": "active",
+  "source": {
+    "kind": "harness-run",
+    "run_id": "manual-input",
+    "timestamp": "2026-11-04",
+    "agent": "agent"
+  },
+  "fingerprint": {
+    "exact": "sha256:1f4b7c5855d2c46c1389f2a03e9ee3795c480f6829e542ff5c645f11d2dc262c",
+    "shingle": 13047245652039844873
+  },
+  "category": "tool_execution",
+  "stratum": "regression",
+  "task": "Execute Codex code generation on vertical-series-platform",
+  "input_context": null,
+  "expect": [
+    {
+      "kind": "status_equals",
+      "equals": "success"
+    }
+  ],
+  "weight": 1.0,
+  "frequency": 1,
+  "split": "dev",
+  "is_blocker": false,
+  "created_at": "2026-11-04",
+  "updated_at": "2026-11-04",
+  "notes": "Auto-captured from production failure: Codex not installed - dispatch aborted"
+}

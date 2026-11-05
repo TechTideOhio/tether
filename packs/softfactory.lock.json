@@ -1,0 +1,15 @@
+{
+  "lock_version": "sha256-framed-v1",
+  "suite_name": "softfactory-continuous-regression-suite",
+  "suite_version": "0.1.0",
+  "spec_sha256": "fc1d1368c46c8bd1b9f437b8007a3b620c6f3dd92426e0f789a8ddff0a67a81b",
+  "total_cases": 5,
+  "case_digests": {
+    "tc-2026-11-04-0001": "ed0dc66579672e92a18be06f78a4e10545b0bad69a3d64edd1233bebfed86bff",
+    "tc-2026-11-04-0002": "091ff1b96f178fd87e4c374b8e6ea8eac2bf3c8913b37456765070034e8f4c5d",
+    "tc-2026-11-04-0003": "57528163516d27769fbb65a6eb0bbd84ce574bdca2a8555df321b7b1f18b59f9",
+    "tc-2026-11-04-0004": "32900502861a11813266ef069c682f76a58fc38f56dc97f5286b1afc3c0d0dd1",
+    "tc-2026-11-04-0005": "0a4c841c9b1a0876959b9bdbf78c70fcd6bdd4c961c188be2e000bcd050af495"
+  },
+  "overall_lock_digest": "619a30ca8b189fd7acf1e1339138c272a051686ddab24883b19cf61a7551b3bc"
+}

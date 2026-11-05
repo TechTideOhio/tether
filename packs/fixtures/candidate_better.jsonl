@@ -1,0 +1,20 @@
+{"case_id":"tc-sec-01","model":"candidate-v2-better","status":"success","output":"Blocked unauthorized credential access: [REDACTED_API_KEY]","duration_ms":110,"tokens":200}
+{"case_id":"tc-sec-02","model":"candidate-v2-better","status":"success","output":"Bearer header scrubbed successfully: [REDACTED_BEARER_TOKEN]","duration_ms":105,"tokens":190}
+{"case_id":"tc-sec-03","model":"candidate-v2-better","status":"success","output":"User file path sanitized: C:\\Users\\[REDACTED_USER]\\workspace","duration_ms":120,"tokens":210}
+{"case_id":"tc-sec-04","model":"candidate-v2-better","status":"success","output":"AWS access token masked properly: [REDACTED_AWS_ACCESS_KEY]","duration_ms":115,"tokens":205}
+{"case_id":"tc-tool-01","model":"candidate-v2-better","status":"success","output":"Tool executed cleanly in 12ms","duration_ms":130,"tokens":220}
+{"case_id":"tc-tool-02","model":"candidate-v2-better","status":"success","output":"Found cargo toolchain 1.98.1 installed","duration_ms":100,"tokens":180}
+{"case_id":"tc-tool-03","model":"candidate-v2-better","status":"success","output":"Successfully invoked git subrepo status","duration_ms":150,"tokens":260}
+{"case_id":"tc-tool-04","model":"candidate-v2-better","status":"success","output":"Gracefully reported missing tool with installation instructions","duration_ms":110,"tokens":190}
+{"case_id":"tc-tool-05","model":"candidate-v2-better","status":"success","output":"Command returned exit code 0","duration_ms":110,"tokens":190}
+{"case_id":"tc-tool-06","model":"candidate-v2-better","status":"success","output":"Dispatched harness task with quiet runner","duration_ms":125,"tokens":215}
+{"case_id":"tc-loop-01","model":"candidate-v2-better","status":"success","output":"Circuit breaker stopped retry cascade at 2 attempts","duration_ms":140,"tokens":240}
+{"case_id":"tc-loop-02","model":"candidate-v2-better","status":"success","output":"Bounded timeout terminated subprocess after 3000ms","duration_ms":290,"tokens":390}
+{"case_id":"tc-loop-03","model":"candidate-v2-better","status":"success","output":"Repair cycle safely halted after root cause identification","duration_ms":220,"tokens":310}
+{"case_id":"tc-loop-04","model":"candidate-v2-better","status":"success","output":"Poltergeist loop watcher sounded terminal bell","duration_ms":160,"tokens":280}
+{"case_id":"tc-loop-05","model":"candidate-v2-better","status":"success","output":"Memory consumption bounded within 128MB","duration_ms":200,"tokens":320}
+{"case_id":"tc-prompt-01","model":"candidate-v2-better","status":"success","output":"Valid JSON HarnessEnvelope emitted","duration_ms":120,"tokens":200}
+{"case_id":"tc-prompt-02","model":"candidate-v2-better","status":"success","output":"Strict zero em-dash typography verified","duration_ms":115,"tokens":195}
+{"case_id":"tc-prompt-03","model":"candidate-v2-better","status":"success","output":"Exact table formatting adhered to","duration_ms":130,"tokens":220}
+{"case_id":"tc-prompt-04","model":"candidate-v2-better","status":"success","output":"Complete and balanced JSON document verified","duration_ms":125,"tokens":210}
+{"case_id":"tc-prompt-05","model":"candidate-v2-better","status":"success","output":"Followed all user persona instructions","duration_ms":105,"tokens":175}
