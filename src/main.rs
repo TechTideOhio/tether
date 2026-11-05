@@ -12,7 +12,9 @@ use tether::envelope::{EnvelopeStatus, HarnessEnvelope};
 use tether::gate::evaluate_release_gate;
 use tether::ledger::TetherLedger;
 use tether::lockfile::TetherLockfile;
-use tether::replay::{evaluate_replay_against_suite, execute_runner_command, load_offline_replay_records};
+use tether::replay::{
+    evaluate_replay_against_suite, execute_runner_command, load_offline_replay_records,
+};
 use tether::repo_audit::audit_repository;
 use tether::report::{
     generate_otel_spans, render_markdown_release_memo, render_reference_loop_table,
@@ -462,7 +464,11 @@ fn execute_command(cli: &Cli) -> anyhow::Result<ExitCode> {
 
         Commands::Close(args) => {
             let suite = SuiteManager::load_or_create(&args.suite)?;
-            suite.close_failure(&args.failure_id, args.baseline_failed, args.candidate_passed)?;
+            suite.close_failure(
+                &args.failure_id,
+                args.baseline_failed,
+                args.candidate_passed,
+            )?;
             let summary = format!(
                 "Verified closing loop invariant for failure '{}': reproduction test succeeded on fix",
                 args.failure_id
@@ -535,7 +541,10 @@ fn execute_command(cli: &Cli) -> anyhow::Result<ExitCode> {
                 println!("Pass Rate:       {:.1}%", report.pass_rate * 100.0);
                 println!("Dev Split:       {:.1}%", report.dev_pass_rate * 100.0);
                 println!("Held-Out Split:  {:.1}%", report.held_out_pass_rate * 100.0);
-                println!("Passed / Total:  {} / {}", report.passed_cases, report.total_cases);
+                println!(
+                    "Passed / Total:  {} / {}",
+                    report.passed_cases, report.total_cases
+                );
                 println!("Blocker Fails:   {}", report.blocker_failures);
             }
             Ok(ExitCode::SUCCESS)
@@ -550,7 +559,11 @@ fn execute_command(cli: &Cli) -> anyhow::Result<ExitCode> {
 
             let (cases, new_cases_count) = if let Some(suite_path) = &args.suite {
                 let suite = SuiteManager::load_or_create(suite_path)?;
-                let count = suite.cases.iter().filter(|c| c.created_at.as_str() >= "2026-11-01").count();
+                let count = suite
+                    .cases
+                    .iter()
+                    .filter(|c| c.created_at.as_str() >= "2026-11-01")
+                    .count();
                 (suite.cases, count)
             } else {
                 // Synthesize cases from baseline records if no suite directory was passed
@@ -653,7 +666,8 @@ fn execute_command(cli: &Cli) -> anyhow::Result<ExitCode> {
 
             let lock = TetherLockfile::create(&args.spec, &spec, &suite.cases)
                 .map_err(|e| anyhow::anyhow!("{e}"))?;
-            lock.save(&args.output).map_err(|e| anyhow::anyhow!("{e}"))?;
+            lock.save(&args.output)
+                .map_err(|e| anyhow::anyhow!("{e}"))?;
 
             let summary = format!(
                 "Sealed suite with {} cases into {}",
@@ -675,8 +689,7 @@ fn execute_command(cli: &Cli) -> anyhow::Result<ExitCode> {
         }
 
         Commands::Verify(args) => {
-            let lock =
-                TetherLockfile::load(&args.lockfile).map_err(|e| anyhow::anyhow!("{e}"))?;
+            let lock = TetherLockfile::load(&args.lockfile).map_err(|e| anyhow::anyhow!("{e}"))?;
             let suite = SuiteManager::load_or_create(&args.suite)?;
 
             lock.verify(&args.spec, &suite.cases)
@@ -702,8 +715,7 @@ fn execute_command(cli: &Cli) -> anyhow::Result<ExitCode> {
         }
 
         Commands::Ledger(args) => {
-            let ledger =
-                TetherLedger::load(&args.ledger).map_err(|e| anyhow::anyhow!("{e}"))?;
+            let ledger = TetherLedger::load(&args.ledger).map_err(|e| anyhow::anyhow!("{e}"))?;
 
             if args.verify {
                 ledger.verify_chain().map_err(|e| anyhow::anyhow!("{e}"))?;
@@ -758,7 +770,13 @@ fn execute_command(cli: &Cli) -> anyhow::Result<ExitCode> {
                 );
                 for (i, gate) in report.gates.iter().enumerate() {
                     let mark = if gate.passed { "[PASS]" } else { "[FAIL]" };
-                    println!("{:>2}. {:<6} {:<42} : {}", i + 1, mark, gate.name, gate.details);
+                    println!(
+                        "{:>2}. {:<6} {:<42} : {}",
+                        i + 1,
+                        mark,
+                        gate.name,
+                        gate.details
+                    );
                 }
                 println!();
             }

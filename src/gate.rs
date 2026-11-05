@@ -107,7 +107,8 @@ pub fn evaluate_release_gate(
 
     let n = baseline_bools.len();
     let baseline_wilson = wilson_score_interval(baseline.passed_cases, baseline.total_cases, 1.96);
-    let candidate_wilson = wilson_score_interval(candidate.passed_cases, candidate.total_cases, 1.96);
+    let candidate_wilson =
+        wilson_score_interval(candidate.passed_cases, candidate.total_cases, 1.96);
 
     let bootstrap_ci = paired_bootstrap_ci(&baseline_bools, &candidate_bools, 1000, 0x184b76ff);
     let mcnemar_p = exact_mcnemar_p_value(b_count, c_count);
@@ -118,8 +119,16 @@ pub fn evaluate_release_gate(
     let mut category_fail = false;
 
     for (cat_name, cat_spec) in &spec.category {
-        let base_rate = baseline.category_pass_rates.get(cat_name).copied().unwrap_or(0.0);
-        let cand_rate = candidate.category_pass_rates.get(cat_name).copied().unwrap_or(0.0);
+        let base_rate = baseline
+            .category_pass_rates
+            .get(cat_name)
+            .copied()
+            .unwrap_or(0.0);
+        let cand_rate = candidate
+            .category_pass_rates
+            .get(cat_name)
+            .copied()
+            .unwrap_or(0.0);
         let cat_delta = cand_rate - base_rate;
 
         let floor_ok = cand_rate >= cat_spec.floor_pass_rate;
@@ -131,9 +140,15 @@ pub fn evaluate_release_gate(
         }
 
         let reason = if !floor_ok {
-            format!("Floor breached: {cand_rate:.3} < {floor:.3}", floor = cat_spec.floor_pass_rate)
+            format!(
+                "Floor breached: {cand_rate:.3} < {floor:.3}",
+                floor = cat_spec.floor_pass_rate
+            )
         } else if !drop_ok {
-            format!("Max drop exceeded: delta {cat_delta:.3} < -{max:.3}", max = cat_spec.max_drop)
+            format!(
+                "Max drop exceeded: delta {cat_delta:.3} < -{max:.3}",
+                max = cat_spec.max_drop
+            )
         } else {
             "Passed".to_string()
         };
@@ -200,7 +215,8 @@ pub fn evaluate_release_gate(
                 mcnemar_p
             ),
         )
-    } else if delta >= -spec.gate.max_drop && candidate.pass_rate >= spec.gate.min_overall_pass_rate {
+    } else if delta >= -spec.gate.max_drop && candidate.pass_rate >= spec.gate.min_overall_pass_rate
+    {
         (
             TetherVerdict::SwitchApproved,
             format!(

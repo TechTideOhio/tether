@@ -8,7 +8,10 @@ pub fn normalize_for_fingerprint(text: &str) -> String {
     let re_numbers = Regex::new(r"\b\d+\b").expect("valid regex");
     let replaced_nums = re_numbers.replace_all(&replaced_paths, "<NUM>");
     let re_whitespace = Regex::new(r"\s+").expect("valid regex");
-    re_whitespace.replace_all(&replaced_nums, " ").trim().to_string()
+    re_whitespace
+        .replace_all(&replaced_nums, " ")
+        .trim()
+        .to_string()
 }
 
 pub fn compute_exact_hash(text: &str) -> String {

@@ -101,8 +101,14 @@ fn test_simhash_near_duplicate_clustering() {
     let dist_near = hamming_distance(h1, h2);
     let dist_far = hamming_distance(h1, hu);
 
-    assert!(dist_near <= 3, "Near duplicates should have dist <= 3, got {dist_near}");
-    assert!(dist_far > 10, "Unrelated strings should have dist > 10, got {dist_far}");
+    assert!(
+        dist_near <= 3,
+        "Near duplicates should have dist <= 3, got {dist_near}"
+    );
+    assert!(
+        dist_far > 10,
+        "Unrelated strings should have dist > 10, got {dist_far}"
+    );
 }
 
 #[test]
@@ -137,7 +143,9 @@ fn test_case_state_machine_lifecycle() {
     // Candidate -> Labeled -> Active -> Retired
     assert!(case.transition(CaseState::Labeled, None).is_ok());
     assert!(case.transition(CaseState::Active, None).is_ok());
-    assert!(case.transition(CaseState::Retired, Some("superseded")).is_ok());
+    assert!(case
+        .transition(CaseState::Retired, Some("superseded"))
+        .is_ok());
 
     // Retired is terminal: attempting to unretire fails
     assert!(case.transition(CaseState::Active, None).is_err());
@@ -161,8 +169,9 @@ fn test_closing_loop_invariant_enforcement() {
         category_hint: Some("tool_execution".to_string()),
     };
 
-    let outcome = process_failure_ingest(payload, &mut suite.cases, 0.20, "tc-close-001".to_string())
-        .expect("capture succeeds");
+    let outcome =
+        process_failure_ingest(payload, &mut suite.cases, 0.20, "tc-close-001".to_string())
+            .expect("capture succeeds");
 
     if let CaptureOutcome::NewCandidate(c) = outcome {
         suite.cases.push(c);
@@ -171,7 +180,10 @@ fn test_closing_loop_invariant_enforcement() {
 
     // 1. Attempting to close with no ACTIVE case (still Candidate) must fail
     let err_unlabeled = suite.close_failure("run-2026-failure-1", true, true);
-    assert!(err_unlabeled.is_err(), "Must reject closure without active case");
+    assert!(
+        err_unlabeled.is_err(),
+        "Must reject closure without active case"
+    );
 
     // Promote case to active
     suite
@@ -187,15 +199,24 @@ fn test_closing_loop_invariant_enforcement() {
 
     // 2. Attempting to close when baseline DID NOT reproduce bug must fail
     let err_no_repro = suite.close_failure("run-2026-failure-1", false, true);
-    assert!(err_no_repro.is_err(), "Must reject closure if baseline didn't fail");
+    assert!(
+        err_no_repro.is_err(),
+        "Must reject closure if baseline didn't fail"
+    );
 
     // 3. Attempting to close when candidate fix FAILED reproduction must fail
     let err_fix_failed = suite.close_failure("run-2026-failure-1", true, false);
-    assert!(err_fix_failed.is_err(), "Must reject closure if candidate fix failed");
+    assert!(
+        err_fix_failed.is_err(),
+        "Must reject closure if candidate fix failed"
+    );
 
     // 4. Successful closure: active case exists, baseline reproduced (failed), candidate fix passed
     let ok_closed = suite.close_failure("run-2026-failure-1", true, true);
-    assert!(ok_closed.is_ok(), "Closure should succeed when invariant is met");
+    assert!(
+        ok_closed.is_ok(),
+        "Closure should succeed when invariant is met"
+    );
 
     fs::remove_dir_all(&temp_dir).ok();
 }
@@ -207,14 +228,20 @@ fn test_release_gate_scenarios() {
     let spec_content = fs::read_to_string(&spec_path).expect("read spec");
     let spec: TetherSpec = toml::from_str(&spec_content).expect("parse toml");
 
-    let base_records = load_offline_replay_records(manifest_dir.join("packs/fixtures/baseline_runs.jsonl"))
-        .expect("read baseline");
-    let cand_better = load_offline_replay_records(manifest_dir.join("packs/fixtures/candidate_better.jsonl"))
-        .expect("read better");
-    let cand_reg = load_offline_replay_records(manifest_dir.join("packs/fixtures/candidate_silent_regression.jsonl"))
-        .expect("read regression");
-    let cand_overfit = load_offline_replay_records(manifest_dir.join("packs/fixtures/candidate_overfit_dev_only.jsonl"))
-        .expect("read overfit");
+    let base_records =
+        load_offline_replay_records(manifest_dir.join("packs/fixtures/baseline_runs.jsonl"))
+            .expect("read baseline");
+    let cand_better =
+        load_offline_replay_records(manifest_dir.join("packs/fixtures/candidate_better.jsonl"))
+            .expect("read better");
+    let cand_reg = load_offline_replay_records(
+        manifest_dir.join("packs/fixtures/candidate_silent_regression.jsonl"),
+    )
+    .expect("read regression");
+    let cand_overfit = load_offline_replay_records(
+        manifest_dir.join("packs/fixtures/candidate_overfit_dev_only.jsonl"),
+    )
+    .expect("read overfit");
 
     let mut cases = Vec::new();
     for (idx, r) in base_records.iter().enumerate() {
@@ -256,9 +283,11 @@ fn test_release_gate_scenarios() {
     }
 
     let base_rep = evaluate_replay_against_suite(&cases, &base_records, "base").expect("eval base");
-    let better_rep = evaluate_replay_against_suite(&cases, &cand_better, "better").expect("eval better");
+    let better_rep =
+        evaluate_replay_against_suite(&cases, &cand_better, "better").expect("eval better");
     let reg_rep = evaluate_replay_against_suite(&cases, &cand_reg, "reg").expect("eval reg");
-    let overfit_rep = evaluate_replay_against_suite(&cases, &cand_overfit, "overfit").expect("eval overfit");
+    let overfit_rep =
+        evaluate_replay_against_suite(&cases, &cand_overfit, "overfit").expect("eval overfit");
 
     // 1. Better candidate should be approved
     let gate_better = evaluate_release_gate(&spec, &base_rep, &better_rep, 5);
@@ -272,7 +301,10 @@ fn test_release_gate_scenarios() {
 
     // 3. Dev-overfit candidate should be blocked by held-out check
     let gate_overfit = evaluate_release_gate(&spec, &base_rep, &overfit_rep, 5);
-    assert_eq!(gate_overfit.verdict, TetherVerdict::BlockedHeldOutRegression);
+    assert_eq!(
+        gate_overfit.verdict,
+        TetherVerdict::BlockedHeldOutRegression
+    );
     assert!(!gate_overfit.passed);
 
     // 4. Stale suite candidate should be blocked by freshness policy
@@ -328,8 +360,18 @@ fn test_lockfile_cryptographic_verification() {
 fn test_merkle_ledger_chain_and_tamper_detection() {
     let mut ledger = TetherLedger::new();
     ledger.append("capture", Some("tc-01"), "captured failure", "2026-11-04");
-    ledger.append("label", Some("tc-01"), "labeled tool_execution", "2026-11-04");
-    ledger.append("close", Some("tc-01"), "verified reproduction", "2026-11-04");
+    ledger.append(
+        "label",
+        Some("tc-01"),
+        "labeled tool_execution",
+        "2026-11-04",
+    );
+    ledger.append(
+        "close",
+        Some("tc-01"),
+        "verified reproduction",
+        "2026-11-04",
+    );
 
     assert_eq!(ledger.total_entries, 3);
     assert!(ledger.verify_chain().is_ok());
@@ -344,9 +386,14 @@ fn test_repository_hygiene_audit_passes_all_8_gates() {
     let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let report = audit_repository(&manifest_dir);
     assert_eq!(
-        report.passed_gates, 8,
+        report.passed_gates,
+        8,
         "All 8 Soft Factory hygiene gates must pass! Failed: {:?}",
-        report.gates.iter().filter(|g| !g.passed).collect::<Vec<_>>()
+        report
+            .gates
+            .iter()
+            .filter(|g| !g.passed)
+            .collect::<Vec<_>>()
     );
     assert!(report.passed);
 }

@@ -164,11 +164,21 @@ pub fn process_failure_ingest(
 
 fn infer_category(summary: &str) -> String {
     let lower = summary.to_lowercase();
-    if lower.contains("not installed") || lower.contains("command not found") || lower.contains("exit 127") {
+    if lower.contains("not installed")
+        || lower.contains("command not found")
+        || lower.contains("exit 127")
+    {
         "tool_execution".to_string()
-    } else if lower.contains("secret") || lower.contains("token") || lower.contains("credential") || lower.contains("key") {
+    } else if lower.contains("secret")
+        || lower.contains("token")
+        || lower.contains("credential")
+        || lower.contains("key")
+    {
         "security_firewall".to_string()
-    } else if lower.contains("loop") || lower.contains("timeout") || lower.contains("circuit breaker") {
+    } else if lower.contains("loop")
+        || lower.contains("timeout")
+        || lower.contains("circuit breaker")
+    {
         "loop_containment".to_string()
     } else {
         "prompt_alignment".to_string()

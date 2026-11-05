@@ -12,7 +12,11 @@ pub enum CaseState {
 }
 
 impl CaseState {
-    pub fn transition_to(&self, target: CaseState, reason: Option<&str>) -> Result<(), TetherError> {
+    pub fn transition_to(
+        &self,
+        target: CaseState,
+        reason: Option<&str>,
+    ) -> Result<(), TetherError> {
         match (self, target) {
             (CaseState::Candidate, CaseState::Labeled) => Ok(()),
             (CaseState::Candidate, CaseState::Retired) => Ok(()),
@@ -81,8 +85,8 @@ impl ExpectAssertion {
                 }
             }
             ExpectAssertion::RegexMatch { pattern } => {
-                let re = Regex::new(pattern)
-                    .map_err(|e| format!("Invalid regex '{pattern}': {e}"))?;
+                let re =
+                    Regex::new(pattern).map_err(|e| format!("Invalid regex '{pattern}': {e}"))?;
                 if re.is_match(actual_output) {
                     Ok(())
                 } else {
@@ -90,8 +94,8 @@ impl ExpectAssertion {
                 }
             }
             ExpectAssertion::RegexAbsent { pattern } => {
-                let re = Regex::new(pattern)
-                    .map_err(|e| format!("Invalid regex '{pattern}': {e}"))?;
+                let re =
+                    Regex::new(pattern).map_err(|e| format!("Invalid regex '{pattern}': {e}"))?;
                 if !re.is_match(actual_output) {
                     Ok(())
                 } else {
@@ -104,9 +108,7 @@ impl ExpectAssertion {
                 if duration_ms <= *max {
                     Ok(())
                 } else {
-                    Err(format!(
-                        "Duration SLA exceeded: {duration_ms}ms > {max}ms"
-                    ))
+                    Err(format!("Duration SLA exceeded: {duration_ms}ms > {max}ms"))
                 }
             }
             ExpectAssertion::MaxTokens { max } => {
@@ -182,7 +184,11 @@ fn default_frequency() -> u64 {
 }
 
 impl TetherCase {
-    pub fn transition(&mut self, target: CaseState, reason: Option<&str>) -> Result<(), TetherError> {
+    pub fn transition(
+        &mut self,
+        target: CaseState,
+        reason: Option<&str>,
+    ) -> Result<(), TetherError> {
         self.state.transition_to(target, reason)?;
         self.state = target;
         Ok(())
@@ -197,7 +203,8 @@ impl TetherCase {
     ) -> Result<(), Vec<String>> {
         let mut failures = Vec::new();
         for assertion in &self.expect {
-            if let Err(msg) = assertion.evaluate(actual_status, actual_output, duration_ms, tokens) {
+            if let Err(msg) = assertion.evaluate(actual_status, actual_output, duration_ms, tokens)
+            {
                 failures.push(msg);
             }
         }

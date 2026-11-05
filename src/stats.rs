@@ -32,7 +32,9 @@ pub fn wilson_score_interval(successes: usize, total: usize, confidence_z: f64) 
     let z2 = confidence_z * confidence_z;
 
     let center = (p_hat + z2 / (2.0 * n)) / (1.0 + z2 / n);
-    let term = (p_hat * (1.0 - p_hat) / n + z2 / (4.0 * n * n)).max(0.0).sqrt();
+    let term = (p_hat * (1.0 - p_hat) / n + z2 / (4.0 * n * n))
+        .max(0.0)
+        .sqrt();
     let margin = (confidence_z / (1.0 + z2 / n)) * term;
 
     let lower = (center - margin).clamp(0.0, 1.0);

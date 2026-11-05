@@ -3,13 +3,11 @@ use serde_json::json;
 
 pub fn render_reference_loop_table() -> String {
     let mut out = String::new();
-    out.push_str("=== TideOS Eval Kit (Tool 15): Continuous Evaluation & Release Invariants ===\n\n");
     out.push_str(
-        "| Loop Invariant | Purpose | Enforcement Engine | Failure Consequence |\n",
+        "=== TideOS Eval Kit (Tool 15): Continuous Evaluation & Release Invariants ===\n\n",
     );
-    out.push_str(
-        "|---|---|---|---|\n",
-    );
+    out.push_str("| Loop Invariant | Purpose | Enforcement Engine | Failure Consequence |\n");
+    out.push_str("|---|---|---|---|\n");
     out.push_str(
         "| 1. Bug Reproduction Case | Production bug cannot close without test | tether close <failure-id> | Blocker: Refuses closure |\n",
     );
@@ -39,15 +37,29 @@ pub fn render_reference_loop_table() -> String {
 
 pub fn render_terminal_release_report(report: &ReleaseGateReport) -> String {
     let mut out = String::new();
-    out.push_str("\n================================================================================\n");
-    out.push_str("                       TIDEOS TOOL 15: TETHER RELEASE GATE                      \n");
-    out.push_str("================================================================================\n");
-    out.push_str(&format!("Verdict:             {}\n", report.verdict.display_badge()));
+    out.push_str(
+        "\n================================================================================\n",
+    );
+    out.push_str(
+        "                       TIDEOS TOOL 15: TETHER RELEASE GATE                      \n",
+    );
+    out.push_str(
+        "================================================================================\n",
+    );
+    out.push_str(&format!(
+        "Verdict:             {}\n",
+        report.verdict.display_badge()
+    ));
     out.push_str(&format!("Summary:             {}\n", report.summary));
     out.push_str(&format!("Baseline Model:      {}\n", report.baseline_model));
-    out.push_str(&format!("Candidate Model:     {}\n", report.candidate_model));
+    out.push_str(&format!(
+        "Candidate Model:     {}\n",
+        report.candidate_model
+    ));
     out.push_str(&format!("Total Cases Replayed: {}\n", report.total_cases));
-    out.push_str("--------------------------------------------------------------------------------\n");
+    out.push_str(
+        "--------------------------------------------------------------------------------\n",
+    );
     out.push_str(&format!(
         "Overall Pass Rate:   Baseline: {:.1}% [{:.1}%, {:.1}%] -> Candidate: {:.1}% [{:.1}%, {:.1}%]\n",
         report.baseline_pass_rate * 100.0,
@@ -67,7 +79,9 @@ pub fn render_terminal_release_report(report: &ReleaseGateReport) -> String {
         "McNemar Discordance: b(base win) = {}, c(cand win) = {} -> exact p-value = {:.4}\n",
         report.discordant_b, report.discordant_c, report.mcnemar_p_value,
     ));
-    out.push_str("--------------------------------------------------------------------------------\n");
+    out.push_str(
+        "--------------------------------------------------------------------------------\n",
+    );
     out.push_str(&format!(
         "Dev Partition:       Baseline: {:.1}%  -> Candidate: {:.1}%\n",
         report.dev_baseline_rate * 100.0,
@@ -78,7 +92,9 @@ pub fn render_terminal_release_report(report: &ReleaseGateReport) -> String {
         report.held_out_baseline_rate * 100.0,
         report.held_out_candidate_rate * 100.0,
     ));
-    out.push_str("--------------------------------------------------------------------------------\n");
+    out.push_str(
+        "--------------------------------------------------------------------------------\n",
+    );
     out.push_str("CATEGORY BREAKDOWN:\n");
     out.push_str(&format!(
         "{:<24} | {:>9} | {:>9} | {:>8} | {:>6} | {:<7} | {:<20}\n",
@@ -97,7 +113,9 @@ pub fn render_terminal_release_report(report: &ReleaseGateReport) -> String {
             cat.reason,
         ));
     }
-    out.push_str("--------------------------------------------------------------------------------\n");
+    out.push_str(
+        "--------------------------------------------------------------------------------\n",
+    );
     out.push_str(&format!(
         "Freshness:           {} new production failure cases locked in (minimum {} required)\n",
         report.new_cases_incorporated, report.required_new_cases
@@ -106,14 +124,19 @@ pub fn render_terminal_release_report(report: &ReleaseGateReport) -> String {
         "Blocker Failures:    {} blocker regressions\n",
         report.blocker_violations
     ));
-    out.push_str("================================================================================\n");
+    out.push_str(
+        "================================================================================\n",
+    );
     out
 }
 
 pub fn render_markdown_release_memo(report: &ReleaseGateReport) -> String {
     let mut out = String::new();
     out.push_str("# Model Release Evaluation Memo\n\n");
-    out.push_str(&format!("**Verdict:** `{}`\n\n", report.verdict.display_badge()));
+    out.push_str(&format!(
+        "**Verdict:** `{}`\n\n",
+        report.verdict.display_badge()
+    ));
     out.push_str(&format!("**Summary:** {}\n\n", report.summary));
     out.push_str("## Core Metrics Comparison\n\n");
     out.push_str("| Metric | Baseline Model | Candidate Model | Delta | Gate Status |\n");
@@ -137,15 +160,25 @@ pub fn render_markdown_release_memo(report: &ReleaseGateReport) -> String {
         report.held_out_baseline_rate * 100.0,
         report.held_out_candidate_rate * 100.0,
         (report.held_out_candidate_rate - report.held_out_baseline_rate) * 100.0,
-        if report.held_out_candidate_rate >= report.held_out_baseline_rate - 0.02 { "PASS" } else { "FAIL" },
+        if report.held_out_candidate_rate >= report.held_out_baseline_rate - 0.02 {
+            "PASS"
+        } else {
+            "FAIL"
+        },
     ));
     out.push_str(&format!(
         "| McNemar p-value | N/A | N/A | p = {:.4} | {} |\n",
         report.mcnemar_p_value,
-        if report.mcnemar_p_value < 0.05 { "SIGNIFICANT" } else { "NOT SIGNIFICANT" },
+        if report.mcnemar_p_value < 0.05 {
+            "SIGNIFICANT"
+        } else {
+            "NOT SIGNIFICANT"
+        },
     ));
     out.push_str("\n## Category Analysis\n\n");
-    out.push_str("| Category | Baseline Pass Rate | Candidate Pass Rate | Delta | Floor | Status |\n");
+    out.push_str(
+        "| Category | Baseline Pass Rate | Candidate Pass Rate | Delta | Floor | Status |\n",
+    );
     out.push_str("|---|:---:|:---:|:---:|:---:|:---:|\n");
     for cat in &report.category_evaluations {
         out.push_str(&format!(

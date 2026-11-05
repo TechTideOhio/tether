@@ -42,7 +42,8 @@ impl RedactionEngine {
             ),
             // Email addresses
             (
-                Regex::new(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}").expect("valid regex"),
+                Regex::new(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
+                    .expect("valid regex"),
                 "[REDACTED_EMAIL]",
             ),
             // Windows user paths: C:\Users\Username

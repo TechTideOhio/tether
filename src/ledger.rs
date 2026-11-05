@@ -14,7 +14,9 @@ pub enum LedgerError {
     },
     #[error("failed to serialize/deserialize ledger entry: {0}")]
     Json(#[from] serde_json::Error),
-    #[error("ledger integrity breach at index {index}: expected prev_hash {expected}, found {found}")]
+    #[error(
+        "ledger integrity breach at index {index}: expected prev_hash {expected}, found {found}"
+    )]
     IntegrityBreach {
         index: usize,
         expected: String,
@@ -71,7 +73,8 @@ impl TetherLedger {
         Self {
             version: "tether-run-v1".to_string(),
             total_entries: 0,
-            head_hash: "0000000000000000000000000000000000000000000000000000000000000000".to_string(),
+            head_hash: "0000000000000000000000000000000000000000000000000000000000000000"
+                .to_string(),
             entries: Vec::new(),
         }
     }
@@ -90,7 +93,8 @@ impl TetherLedger {
             self.entries[index - 1].entry_hash.clone()
         };
 
-        let entry_hash = hash_ledger_entry(index, event_kind, case_id, detail, timestamp, &prev_hash);
+        let entry_hash =
+            hash_ledger_entry(index, event_kind, case_id, detail, timestamp, &prev_hash);
 
         let entry = LoopLedgerEntry {
             index,
@@ -175,7 +179,11 @@ impl TetherLedger {
         Ok(ledger)
     }
 
-    pub fn append_to_file(&self, path: impl AsRef<Path>, entry: &LoopLedgerEntry) -> Result<(), LedgerError> {
+    pub fn append_to_file(
+        &self,
+        path: impl AsRef<Path>,
+        entry: &LoopLedgerEntry,
+    ) -> Result<(), LedgerError> {
         let p = path.as_ref();
         let mut file = OpenOptions::new()
             .create(true)

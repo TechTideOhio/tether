@@ -51,7 +51,9 @@ pub struct ReplaySuiteReport {
     pub results: Vec<ReplayCaseResult>,
 }
 
-pub fn load_offline_replay_records(path: impl AsRef<Path>) -> Result<Vec<ReplayRecord>, TetherError> {
+pub fn load_offline_replay_records(
+    path: impl AsRef<Path>,
+) -> Result<Vec<ReplayRecord>, TetherError> {
     let file = File::open(path.as_ref())?;
     let reader = BufReader::new(file);
     let mut records = Vec::new();
@@ -177,10 +179,12 @@ pub fn evaluate_replay_against_suite(
 
         let record = record_map.get(case.id.as_str());
         let (passed, duration_ms, tokens, failures) = match record {
-            Some(rec) => match case.evaluate_run(&rec.status, &rec.output, rec.duration_ms, rec.tokens) {
-                Ok(()) => (true, rec.duration_ms, rec.tokens, Vec::new()),
-                Err(errs) => (false, rec.duration_ms, rec.tokens, errs),
-            },
+            Some(rec) => {
+                match case.evaluate_run(&rec.status, &rec.output, rec.duration_ms, rec.tokens) {
+                    Ok(()) => (true, rec.duration_ms, rec.tokens, Vec::new()),
+                    Err(errs) => (false, rec.duration_ms, rec.tokens, errs),
+                }
+            }
             None => (
                 false,
                 0,
